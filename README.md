@@ -33,7 +33,7 @@ Your agent only ever makes drafts. Nothing goes out until a person approves it, 
 
 ## Access
 
-The Tovaka Scheduler is in an invite-only beta. The skills are free to use and adapt under the MIT license.
+The Tovaka Scheduler is in an invite-only beta. Want an invite? Say hello at [tovakabuilds.com](https://www.tovakabuilds.com/#contact). The skills are free to use and adapt under the MIT license.
 
 ## License
 
