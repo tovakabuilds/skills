@@ -6,7 +6,7 @@ Free agent skills from [Tovaka Builds](https://www.tovakabuilds.com). Your AI ag
 
 | Skill | What it does |
 | --- | --- |
-| [tovaka-scheduler](skills/tovaka-scheduler/SKILL.md) | Connects your agent (Claude, Codex and others) to the Tovaka Scheduler: makes your brand brief with you, plans a week of Instagram and Facebook posts, answers a client's change request, and explains failed posts. Every post waits for approval unless you turn review off. |
+| [tovaka-scheduler](skills/tovaka-scheduler/SKILL.md) | Connects your agent (Claude, Codex and others) to the Tovaka Scheduler: makes your brand brief with you, plans a week of Instagram, Facebook, Threads and Bluesky posts with secure uploads for your own images and videos, answers a client's change request, and explains failed posts. Every post waits for approval unless you turn review off. |
 
 More are coming: content skills for finding an angle, writing hooks and scripts, and building reels.
 

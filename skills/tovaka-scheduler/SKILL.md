@@ -1,6 +1,6 @@
 ---
 name: tovaka-scheduler
-description: Plan, draft and follow up social posts for a business through the Tovaka Scheduler (Instagram and Facebook; Threads not live yet). Use when someone asks you to plan their posts, schedule content, fill next week, answer a client's change request, or find out why a post did not go out. Every post you send waits for human approval unless the business has turned review off.
+description: Plan, draft and follow up social posts for a business through the Tovaka Scheduler (Instagram, Facebook, Threads and Bluesky), with secure uploads for your own images and videos. Use when someone asks you to plan their posts, schedule content, fill next week, answer a client's change request, or find out why a post did not go out. Every post you send waits for human approval unless the business has turned review off.
 ---
 
 # Tovaka Scheduler
@@ -32,6 +32,8 @@ A session that was open before the connection finished does not see the tools; s
 | --- | --- |
 | `get_business` | Start here: accounts, review mode, every platform limit |
 | `find_open_times` | Pick times (Pacific); `count` for a week, `min_gap_hours` to space posts |
+| `request_media_upload` | Get temporary upload links for your own images or videos |
+| `finalize_media_upload` | Have the scheduler check the uploaded files and return verified asset ids |
 | `create_post` | Send one post to one platform (it arrives as a draft) |
 | `list_posts` | See what is planned, and what clients sent back (`replacements`) |
 | `get_post` | Status in plain words, what to do next, failure fix, live link |
@@ -57,8 +59,22 @@ The owner can skip it. Then draft carefully from what they tell you, and offer a
 
 1. `get_business`. Read the brand brief (or make one first, above). Note the review mode and each platform's limits (caption length, hashtags, links blocked on Instagram, media sizes). Draft inside them; the scheduler refuses anything outside them and tells you exactly why.
 2. `find_open_times` with `count` set to the number of posts and a sensible `min_gap_hours` (5 is a good default).
-3. For each post, `create_post` once per platform with the same `post_group` (for example `oct-week-3-hiring`), the same time, and `agent_name` set to your name. Use a stable `idempotency_key` per platform post so a retry never makes a duplicate.
+3. For each post, `create_post` once per platform with the same `post_group` (for example `oct-week-3-hiring`), the same time, and `agent_name` set to your name. Use a stable `idempotency_key` per platform post so a retry never makes a duplicate. Write each platform its own caption: Threads allows 500 characters and one topic tag, Bluesky 300 characters counted the way a person sees them. Only post to platforms `get_business` shows as connected.
 4. Tell the person what you drafted and that it is waiting for approval (`get_business` says whether the owner or a client approves).
+
+## Images and videos
+
+If the image or video is a file you have (one you made, or one the owner gave you), upload it securely. You never need a storage key or a public link:
+
+1. `request_media_upload` with each file's `kind` (`media`, or `cover` for a reel cover), its real type (`image/jpeg`, `image/png`, `video/mp4` or `video/quicktime`) and its exact size in bytes. Up to 10 files in one request. A cover goes in the same request as its video: one video file plus one `cover` file. A cover cannot be uploaded alone or with a carousel. PNGs must be under 1 MB (use JPG for larger images); files can be up to 45 MB, covers up to 8 MB. You get a `session_id` and one temporary upload link per file.
+2. Upload each file to its link with an HTTP PUT and the file's type as `Content-Type`. The links work only for this business and your connection. Do not print or share them. Create the posts within two hours of requesting the upload; unused uploads are deleted after that.
+3. `finalize_media_upload` with the `session_id`. The scheduler checks the real file type, size and ownership and returns verified media assets, each with an `id`.
+4. Pass the ids to `create_post`:
+   - one image or video: `media_asset_id`
+   - a carousel (`media_type: carousel`): `media_asset_ids`, 2 to 10 slides in the order they should appear
+   - a reel cover (video posts only): `cover_asset_id`, the JPEG uploaded with `kind: cover` in the same upload as the video
+
+You can use the same assets for each platform's version of the post. Each platform's limits still apply (Bluesky takes at most 4 images and no video slides); `get_business` lists each platform's carousel and cover rules.
 
 ## When a client sends a post back
 
@@ -79,5 +95,6 @@ The owner can skip it. Then draft carefully from what they tell you, and offer a
 - You see client names and their sent-back notes because you need them to rebuild. Use them only for that business's posts; never repeat them elsewhere.
 - You can change or remove only posts your own connection created. Posts from other engines or the owner are theirs; say so instead.
 - Agents can create at most 25 posts per business in 24 hours (every platform counts; a refused post does not count). If you hit it, stop and tell the person.
-- Media must be public https links that open without a login. Instagram captions cannot carry links; say "link in bio".
+- Use the secure upload for files (above). A public https link that opens without a login also works (`media_url`, `media_urls`, `cover_url`); never invent one. Instagram captions cannot carry links; say "link in bio".
+- Threads: until Meta finishes reviewing the app, only Threads profiles added as testers can connect. If `get_business` shows no Threads account, a Threads post will not queue; say so.
 - Times are Pacific for now.
