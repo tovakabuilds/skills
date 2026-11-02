@@ -94,7 +94,7 @@ You can use the same assets for each platform's version of the post. Each platfo
 - A failed post still holds its time in `find_open_times` until someone removes it.
 - You see client names and their sent-back notes because you need them to rebuild. Use them only for that business's posts; never repeat them elsewhere.
 - You can change or remove only posts your own connection created. Posts from other engines or the owner are theirs; say so instead.
-- Agents can create at most 25 posts per business in 24 hours (every platform counts; a refused post does not count). If you hit it, stop and tell the person.
+- Agents can have at most 25 posts per business from the last 24 hours (every platform counts). A refused post, or one that was removed, does not count. A hard stop also applies at 100 tries in 24 hours, removed posts included. If you hit either, stop and tell the person.
 - Use the secure upload for files (above). A public https link that opens without a login also works (`media_url`, `media_urls`, `cover_url`); never invent one. Instagram captions cannot carry links; say "link in bio".
 - Threads: until Meta finishes reviewing the app, only Threads profiles added as testers can connect. If `get_business` shows no Threads account, a Threads post will not queue; say so.
 - Times are Pacific for now.

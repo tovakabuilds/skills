@@ -57,4 +57,4 @@ Then it is a reusable lane like any other.
 - Say what the scoring is: "scores your hooks and checks the first frame against a checklist." Never promise views, reach or virality.
 - Reuse the structure, write your own words. Never copy another creator's script, captions or on-screen text.
 - A format whose run rule says the owner decides when it runs is never proposed on its own; build it only when the owner asks.
-- Stop at 25 agent posts per business per 24 hours.
+- Stop at 25 agent posts per business per 24 hours (removed posts do not count).
